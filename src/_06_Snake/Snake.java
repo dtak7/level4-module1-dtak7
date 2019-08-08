@@ -5,16 +5,16 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class Snake {
-	public static final Color SNAKE_COLOR = Color.BLUE;
+	public static final Color SNAKE_COLOR = Color.GREEN;
 	public static final int BODY_SIZE = 50;
 
 	private SnakeSegment head;
 	private ArrayList<SnakeSegment> snake;
 
-	private Direction currentDirection;
+	public Direction currentDirection;
 
 	private boolean canMove = true;
-
+	
 	public Snake(Location location) {
 		snake = new ArrayList<SnakeSegment>();
 		head = new SnakeSegment(location, BODY_SIZE);
@@ -26,6 +26,7 @@ public class Snake {
 	public void feed() {
 		//1. add a new SnakeSegment object to the snake
 		snake.add(new SnakeSegment(snake.get(0).getLocation(), BODY_SIZE));
+		
 	}
 
 	public Location getHeadLocation() {
@@ -64,7 +65,7 @@ public class Snake {
 		for(int i=snake.size()-1;i>0;i--) {
 			Location a=snake.get(i).getLocation();
 			Location b=snake.get(i-1).getLocation();
-			a=b;
+			snake.get(i).setLocation(b);
 		}
 		
 		//3. set the location of the head to the new location calculated in step 1
@@ -95,9 +96,7 @@ public class Snake {
 	public boolean isOutOfBounds() {
 		//1. complete the method so it returns true if the head of the snake is outsize of the window
 		//   and false otherwise
-		if(head.getLocation().x>_00_SnakeGame.WIDTH||head.getLocation().x<0||head.getLocation().y<0||head.getLocation().y>_00_SnakeGame.HEIGHT
-				) {
-			System.out.println("out");
+		if(head.getLocation().x>_00_SnakeGame.WIDTH-1||head.getLocation().x<-1||head.getLocation().y<-1||head.getLocation().y>_00_SnakeGame.HEIGHT-1) {
 			return true;
 		}
 		return false;
@@ -110,7 +109,6 @@ public class Snake {
 		for(int i =1;i<snake.size();i++) {
 			 bodyLoc=snake.get(i).getLocation();
 			 if(head.getLocation().equals(bodyLoc)) {
-				 System.out.println("body");
 					return true;
 				}
 		}
